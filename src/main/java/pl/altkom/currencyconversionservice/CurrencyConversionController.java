@@ -1,5 +1,6 @@
 package pl.altkom.currencyconversionservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,17 @@ import java.util.HashMap;
 
 @RestController
 public class CurrencyConversionController {
+
+    @Autowired
+    private CurrencyExchangeProxy currencyExchangeProxy;
+
+
+    @GetMapping("/currency-calculate2/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion calculateConversion2(@PathVariable(name = "from") String form,
+                                                  @PathVariable(name = "to") String to,
+                                                  @PathVariable(name = "quantity") BigDecimal quantity) {
+        return currencyExchangeProxy.retriveExchangeValue(form, to);
+    }
 
     @GetMapping("/currency-calculate/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateConversion(@PathVariable(name = "from") String form,
