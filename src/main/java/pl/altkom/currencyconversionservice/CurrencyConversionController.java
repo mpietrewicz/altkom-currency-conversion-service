@@ -21,7 +21,9 @@ public class CurrencyConversionController {
     public CurrencyConversion calculateConversion2(@PathVariable(name = "from") String form,
                                                   @PathVariable(name = "to") String to,
                                                   @PathVariable(name = "quantity") BigDecimal quantity) {
-        return currencyExchangeProxy.retriveExchangeValue(form, to);
+        CurrencyConversion responseBody = currencyExchangeProxy.retriveExchangeValue(form, to);
+        return new CurrencyConversion(responseBody.getId(), responseBody.getFrom(), responseBody.getTo(), quantity,
+                quantity.multiply(responseBody.getConversion()), responseBody.getEnvironment());
     }
 
     @GetMapping("/currency-calculate/from/{from}/to/{to}/quantity/{quantity}")
